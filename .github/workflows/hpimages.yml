@@ -1,17 +1,6 @@
 name: HPImages
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [master]
-    paths: ['HPImages/**']
-  pull_request:
-    branches: [master]
-    paths: ['HPImages/**']
-
-defaults:
-  run:
-    working-directory: HPImages
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
