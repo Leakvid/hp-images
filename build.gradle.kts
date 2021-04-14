@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.jvm.tasks.Jar
 
 plugins {
     id("org.springframework.boot") version "2.4.3"
@@ -25,7 +24,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        exclude(module = "mockito-core")
+    }
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("com.ninja-squad:springmockk:2.0.1")
 }
 
 tasks.withType<KotlinCompile> {
@@ -39,4 +43,4 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-springBoot { mainClass.set("leakvid.hpcore.AppKt") }
+springBoot { mainClass.set("leakvid.hpimages.AppKt") }

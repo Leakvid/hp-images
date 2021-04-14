@@ -13,7 +13,7 @@ class ImageService(val repository: ImageRepository) : IImageService {
         return repository.findByName(name)
     }
 
-    override fun merge(encounter: Image) {
-        repository.save(encounter)
+    override fun merge(image: Image) {
+        repository.save(image)
     }
 }
