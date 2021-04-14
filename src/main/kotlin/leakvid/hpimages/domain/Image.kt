@@ -8,4 +8,4 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class Image(
         @Id val name: String,
         val image: Binary
-       )
+)

@@ -2,10 +2,14 @@ package leakvid.hpimages.controller
 
 import leakvid.hpimages.domain.Image
 import leakvid.hpimages.services.IImageService
+import leakvid.hpimages.services.dtos.ImageDto
 import org.apache.coyote.Response
+import org.bson.BsonBinarySubType
 import org.bson.types.Binary
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
@@ -22,14 +26,12 @@ class ImageController(val service: IImageService) {
         }
     }
 
-    @PostMapping
-    fun insert(@RequestBody image: Image) : ResponseEntity<Image> {
-        service.merge(image)
+    @PostMapping(value = ["/{name}"], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    fun insert(
+        @PathVariable("name") name: String,
+        @RequestParam("image") file: MultipartFile
+    ) : ResponseEntity<Image> {
+        service.merge(ImageDto(name, file))
         return ResponseEntity.ok().build()
-    }
-
-    @GetMapping
-    fun test(): ResponseEntity<Image?> {
-        return ResponseEntity.ok(Image("Cat", Binary(ByteArray(0))))
     }
 }
