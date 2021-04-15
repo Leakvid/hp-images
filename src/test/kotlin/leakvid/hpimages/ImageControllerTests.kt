@@ -1,8 +1,7 @@
 package leakvid.hpimages
 
 import com.ninjasquad.springmockk.MockkBean
-import io.mockk.every
-import io.mockk.verify
+import io.mockk.*
 import leakvid.hpimages.controller.ImageController
 import leakvid.hpimages.domain.Image
 import leakvid.hpimages.services.IImageService
@@ -32,18 +31,18 @@ class ImageControllerTests() {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    private val imageRoute = "/image/Cat"
     private val name = "Cat"
+    private val imageRoute = "/image"
     private val mpf = MockMultipartFile("image", "cat.jpg", "image/jpg", "A Cat".toByteArray())
-    private val image = Image("Cat", Binary(ByteArray(0)))
-    private val imageDto = ImageDto("Cat", mpf)
+    private val image = Image(name, Binary(ByteArray(0)))
+    private val imageDto = ImageDto(name, mpf)
 
     @Test
     fun `when the image does not exist, return not found`() {
         every { imageService.get(name) } returns null
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get(imageRoute)
+            MockMvcRequestBuilders.get("$imageRoute/$name")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound)
             .andReturn()
@@ -57,7 +56,7 @@ class ImageControllerTests() {
         every { imageService.get(name) } returns image
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get(imageRoute)
+            MockMvcRequestBuilders.get("$imageRoute/$name")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andReturn()
@@ -67,10 +66,10 @@ class ImageControllerTests() {
 
     @Test
     fun `when image is merged, return ok`() {
-        every { imageService.merge(imageDto) }
-
+        every { imageService.merge(imageDto) } just Runs
+        
         mockMvc.perform(
-            MockMvcRequestBuilders.multipart(imageRoute)
+            MockMvcRequestBuilders.multipart("$imageRoute/$name")
                 .file(mpf))
             .andExpect(status().isOk)
             .andReturn()
