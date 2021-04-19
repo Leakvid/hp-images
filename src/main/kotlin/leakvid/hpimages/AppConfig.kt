@@ -14,9 +14,8 @@ import org.springframework.data.mongodb.core.MongoTemplate
 @Configuration
 class AppConfig {
     @Bean
-    fun mongoClient(@Value("\${spring.data.mongodb.host}") host: String,
-                    @Value("\${spring.data.mongodb.port}") port: String): MongoClient {
-        return MongoClients.create("mongodb://${host}:${port}")
+    fun mongoClient(@Value("\${spring.data.mongodb.uri}") uri: String): MongoClient {
+        return MongoClients.create(uri)
     }
 
     @Bean
