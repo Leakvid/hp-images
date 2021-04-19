@@ -32,5 +32,5 @@ jobs:
         app-name: homebrewery-images
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0F5979D140B74F86B73FA07F5FFD48A2 }}
-        package: ${{ github.workspace }}/target/*.jar
+        package: ${{ github.workspace }}/build/libs/*.jar
 
