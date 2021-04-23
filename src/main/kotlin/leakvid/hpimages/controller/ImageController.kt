@@ -15,14 +15,17 @@ import org.springframework.web.multipart.MultipartFile
 @CrossOrigin
 @RequestMapping("/image")
 class ImageController(val service: IImageService) {
-    @GetMapping("/{name}")
-    fun get(@PathVariable("name") name: String): ResponseEntity<Image?> {
+    @GetMapping(
+        value = ["/{name}"],
+        produces = [MediaType.IMAGE_JPEG_VALUE]
+    )
+    fun get(@PathVariable("name") name: String): ResponseEntity<ByteArray> {
         val image = service.get(name)
 
         return if (image == null) {
             ResponseEntity.notFound().build();
         }else{
-            ResponseEntity.ok(image)
+            ResponseEntity.ok(image.image.data)
         }
     }
 

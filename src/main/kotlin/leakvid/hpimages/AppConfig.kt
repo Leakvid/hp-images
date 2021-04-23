@@ -29,7 +29,7 @@ class AppConfig {
         return OpenAPI()
                 .components(Components())
                 .info(Info()
-                        .title("Homebrewer's Tools: Core")
+                        .title("Homebrewer's Tools: Images")
                         .version(version))
     }
 }

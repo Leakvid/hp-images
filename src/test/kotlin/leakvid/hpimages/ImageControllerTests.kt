@@ -57,7 +57,7 @@ class ImageControllerTests() {
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("$imageRoute/$name")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.IMAGE_JPEG_VALUE))
             .andExpect(status().isOk)
             .andReturn()
 
